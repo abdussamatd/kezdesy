@@ -71,7 +71,6 @@ class Data {
       'lastName': lastName,
       'profilePic': profilePic,
       'gender': gender,
-      'token': token,
       'city': city,
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),

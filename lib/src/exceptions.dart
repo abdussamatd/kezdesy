@@ -1,5 +1,27 @@
-class SignUpFailedException implements Exception{}
+class SignUpFailedException implements Exception{
+  @override
+  String toString() {
+    return 'Sign up failed';
+  }
+}
 
-class WrongCredentialsException implements Exception{}
+class WrongCredentialsException implements Exception{
+  @override
+  String toString() {
+    return 'Incorrect email or password';
+  }
+}
 
-class CouldNotLoadUserData implements Exception{}
+class CouldNotLoadUserDataException implements Exception{
+  @override
+  String toString() {
+    return 'Could not load user data';
+  }
+}
+
+class HostUnreachableException implements Exception {
+  @override
+  String toString() {
+    return 'No connection to the server';
+  }
+}

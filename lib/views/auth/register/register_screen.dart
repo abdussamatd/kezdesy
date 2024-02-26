@@ -4,6 +4,7 @@ import 'package:bloc_example_app/network/repository/repository_store.dart';
 import 'package:bloc_example_app/src/app_assets.dart';
 import 'package:bloc_example_app/src/app_colors.dart';
 import 'package:bloc_example_app/blocs/bloc_status.dart';
+import 'package:bloc_example_app/src/app_methods.dart';
 import 'package:bloc_example_app/views/auth/login/login_screen.dart';
 import 'package:bloc_example_app/views/auth/widgets/form_widget.dart';
 import 'package:bloc_example_app/views/auth/widgets/have_account_text.dart';
@@ -56,8 +57,7 @@ class RegisterScreen extends StatelessWidget {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    AppMethods.showSnackBar(context, message);
   }
 
   void _goToLogin(BuildContext context) {

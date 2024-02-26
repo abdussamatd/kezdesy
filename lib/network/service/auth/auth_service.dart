@@ -8,48 +8,59 @@ class AuthService {
   final String baseUrl = AppStrings.baseUrl;
 
   Future<void> signUp(User user) async {
-    print('-------btn pressed -----');
-    final response = await http.post(
-      Uri.parse('$baseUrl/register'), // Use the actual register endpoint
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(user.toJson()), // Serializing User object to JSON
-    );
-    print('-------btn pressed -----');
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
-    } else {
-      throw SignUpFailedException();
+    try{
+      print(user.toJson());
+      print('-----------------------------');
+      final response = await http.post(
+        Uri.parse('$baseUrl/register'), // Use the actual register endpoint
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(user.toJson()), // Serializing User object to JSON
+      );
+      print('----------------ffff---------------');
+      if (response.statusCode == 200) {
+      } else {
+        throw SignUpFailedException();
+      }
+    } catch (e) {
+      print(e.toString());
+      throw HostUnreachableException();
     }
   }
 
   Future<User> signInWithEmail({required String email, required String password}) async {
-    final loginResponse = await http.post(
-      Uri.parse('$baseUrl/login'), // Adjusted to the /login endpoint
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
-    );
-
-    if (loginResponse.statusCode == 200) {
-      // If login is successful, proceed to fetch user details
-      final getUserResponse = await http.get(
-        Uri.parse('$baseUrl/getUser'), // Adjusted to the getUser endpoint
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    try {
+      final loginResponse = await http.post(
+        Uri.parse('$baseUrl/login'), // Adjusted to the /login endpoint
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
       );
 
-      if (getUserResponse.statusCode == 200) {
+      if (loginResponse.statusCode == 200) {
+        // If login is successful, proceed to fetch user details
+        final getUserResponse = await http.get(
+          Uri.parse('$baseUrl/getUser'), // Adjusted to the getUser endpoint
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        );
 
-        return User.fromJson(json.decode(getUserResponse.body));
+        if (getUserResponse.statusCode == 200) {
+          return User.fromJson(json.decode(getUserResponse.body));
+        } else {
+          throw CouldNotLoadUserDataException();
+        }
       } else {
-        throw CouldNotLoadUserData();
+        throw WrongCredentialsException();
       }
-    } else {
-      throw WrongCredentialsException();
+    } catch (e) {
+      if (e is WrongCredentialsException
+          || e is CouldNotLoadUserDataException) {
+        rethrow;
+      }
+      throw HostUnreachableException();
     }
   }
 

@@ -9,7 +9,13 @@ class LoginState extends Equatable {
   });
 
   final String email;
-  bool get isValidEmail => email.length > 3;
+  bool get isValidEmail {
+    final regexEmail = RegExp(
+      r'^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@'
+      r'[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$',
+    );
+    return regexEmail.hasMatch(email);
+  }
 
   final String password;
   bool get isValidPassword => password.length > 5;

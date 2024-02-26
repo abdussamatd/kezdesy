@@ -4,6 +4,7 @@ import 'package:bloc_example_app/blocs/auth/login/login_bloc.dart';
 import 'package:bloc_example_app/blocs/auth/login/login_state.dart';
 import 'package:bloc_example_app/src/app_colors.dart';
 import 'package:bloc_example_app/blocs/bloc_status.dart';
+import 'package:bloc_example_app/src/app_methods.dart';
 import 'package:bloc_example_app/views/auth/widgets/form_widget.dart';
 import 'package:bloc_example_app/views/auth/widgets/have_account_text.dart';
 import 'package:bloc_example_app/views/home/home_screen.dart';
@@ -55,8 +56,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    AppMethods.showSnackBar(context, message);
   }
 
   void _goToHome(BuildContext context) {

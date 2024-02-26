@@ -36,7 +36,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(state.copyWith(interests: event.interests));
     } else if (event is RegisterSubmitted) {
       emit(state.copyWith(appStatus: FormSubmitting()));
-
       try {
         await authRepo?.signUp(
           User(data: Data(
@@ -48,7 +47,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             gender: state.gender,
             city: state.city,
             profilePic: state.profilePic,
-            interests: state.interests,
+            interests: state.interests??[],
+            createdAt: DateTime.now(),
           ))
         );
         emit(state.copyWith(appStatus: const SubmissionSuccess()));
